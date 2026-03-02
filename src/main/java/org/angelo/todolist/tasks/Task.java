@@ -1,4 +1,4 @@
-package org.angelo.todolist.model;
+package org.angelo.todolist.tasks;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

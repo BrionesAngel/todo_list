@@ -1,8 +1,6 @@
-package org.angelo.todolist.controller;
+package org.angelo.todolist.tasks;
 
 import lombok.RequiredArgsConstructor;
-import org.angelo.todolist.model.Task;
-import org.angelo.todolist.service.TaskService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,5 +20,11 @@ public class TaskController {
     public List<Task> getAllTask(){
         return taskService.getAllTasks();
     }
+
+    @GetMapping("/completed/{status}")
+    public List<Task> getTasksByStatus(@PathVariable boolean status) {return taskService.getTasksByStatus(status); }
+
+    @GetMapping("/search")
+    public List<Task> searchTasks(@RequestParam String title) {return taskService.searchTasks(title);}
 }
 
