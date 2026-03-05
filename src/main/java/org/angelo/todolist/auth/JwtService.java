@@ -24,11 +24,11 @@ public class JwtService {
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
-    public String generateToken(UserDetails user) {
+    public String generateToken(String subject) {
         long jwtExpirationMs = 1000 * 60 * 60; // 1 hora
 
         return Jwts.builder()
-                .subject(user.getUsername())
+                .subject(subject)
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + jwtExpirationMs))
                 .signWith(getSigningKey())
