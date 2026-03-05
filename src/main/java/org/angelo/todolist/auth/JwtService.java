@@ -16,7 +16,7 @@ import java.util.Date;
 @Service
 public class JwtService {
 
-    @Value("${jwt.secret:tu_clave_secreta_aqui_minimo_32_caracteres}")
+    @Value("${jwt.secret}")
     private String secretBase64;
 
     private SecretKey getSigningKey() {
