@@ -31,7 +31,7 @@ public class TaskService {
         task.setDescription(request.description());
         task.setCompleted(false);
         task.setUser(user);
-        
+
         Task savedTask = taskRepository.save(task);
         return taskMapper.toResponse(savedTask);
     }

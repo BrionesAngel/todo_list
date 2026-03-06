@@ -1,8 +1,16 @@
 package org.angelo.todolist.tasks;
 
-import org.mapstruct.Mapper;
+import org.springframework.stereotype.Component;
 
-@Mapper(componentModel = "spring")
-public interface TaskMapper {
-    TaskResponse toResponse(Task task);
+@Component
+public class TaskMapper {
+
+    public TaskResponse toResponse(Task task) {
+        return new TaskResponse(
+                task.getId(),
+                task.getTitle(),
+                task.getDescription(),
+                task.isCompleted()
+        );
+    }
 }
