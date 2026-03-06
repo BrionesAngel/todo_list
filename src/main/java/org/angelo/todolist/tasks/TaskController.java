@@ -1,6 +1,7 @@
 package org.angelo.todolist.tasks;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,5 +27,11 @@ public class TaskController {
 
     @GetMapping("/search")
     public List<Task> searchTasks(@RequestParam String title) {return taskService.searchTasks(title);}
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteTask(@PathVariable Long id) {
+        taskService.deleteTask(id);
+        return ResponseEntity.noContent().build();
+    }
 }
 

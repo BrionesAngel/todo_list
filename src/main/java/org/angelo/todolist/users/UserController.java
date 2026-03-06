@@ -1,7 +1,6 @@
 package org.angelo.todolist.users;
 
 import lombok.RequiredArgsConstructor;
-import org.angelo.todolist.auth.RegisterRequest;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -11,6 +10,6 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     private final UserService userService;
 
-    @GetMapping("/{id}")
-    public User getUser(@PathVariable Long id) {return userService.getUser(id);}
+    @GetMapping("/me")
+    public User getUser() {return userService.getUser();}
 }

@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @SpringBootApplication
 public class TodolistApplication {
-	@GetMapping("/")
+	@GetMapping("/hello")
 	public String hello(){
 		return "hello world";
 	}

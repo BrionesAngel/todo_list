@@ -1,10 +1,11 @@
 package org.angelo.todolist.users;
 
-import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import org.angelo.todolist.auth.RegisterRequest;
 import org.angelo.todolist.exceptions.DuplicateEmailException;
 import org.angelo.todolist.exceptions.ResourceNotFoundException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,7 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+
 
     public User createUser(RegisterRequest request){
         if(userRepository.existsByEmail(request.getEmail())){
@@ -29,8 +31,15 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public User getUser(Long id){
-        return userRepository.findById(id)
-        .orElseThrow(() -> new ResourceNotFoundException("User not found" + id));
+    public User getUser(){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        assert auth != null;
+        String email = auth.getName();
+
+        User user = userRepository.findByEmail(email);
+        if(user == null) {
+            throw new ResourceNotFoundException("User not found");
+        }
+        return user;
     }
 }
