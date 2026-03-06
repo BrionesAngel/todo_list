@@ -13,10 +13,7 @@ public class TaskController {
     private final TaskService taskService;
 
     @PostMapping
-    public Task createTask(@RequestBody Task task){
-
-        return taskService.createTask(task);
-    }
+    public TaskResponse createTask(@RequestBody TaskRequest request){ return taskService.createTask(request); }
 
     @GetMapping("/completed/{status}")
     public List<Task> getTasksByStatus(@PathVariable boolean status) {return taskService.getTasksByStatus(status); }

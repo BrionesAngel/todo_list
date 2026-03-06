@@ -15,8 +15,9 @@ import java.util.List;
 public class TaskService {
     private final TaskRepository taskRepository;
     private final UserRepository userRepository;
+    private final TaskMapper taskMapper;
 
-    public Task createTask(Task task){
+    public TaskResponse createTask(TaskRequest request){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         assert auth != null;
         String email = auth.getName();
@@ -25,8 +26,14 @@ public class TaskService {
         if(user == null) {
             throw new ResourceNotFoundException("User not found");
         }
+        Task task = new Task();
+        task.setTitle(request.title());
+        task.setDescription(request.description());
+        task.setCompleted(false);
         task.setUser(user);
-        return taskRepository.save(task);
+        
+        Task savedTask = taskRepository.save(task);
+        return taskMapper.toResponse(savedTask);
     }
 
     public List<Task> getTasksByStatus(boolean status) {return taskRepository.findByCompleted(status);}
