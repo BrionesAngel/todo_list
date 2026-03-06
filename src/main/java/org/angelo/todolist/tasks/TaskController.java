@@ -14,12 +14,8 @@ public class TaskController {
 
     @PostMapping
     public Task createTask(@RequestBody Task task){
-        return taskService.createTask(task);
-    }
 
-    @GetMapping
-    public List<Task> getAllTask(){
-        return taskService.getAllTasks();
+        return taskService.createTask(task);
     }
 
     @GetMapping("/completed/{status}")

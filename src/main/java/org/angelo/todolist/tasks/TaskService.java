@@ -29,9 +29,6 @@ public class TaskService {
         return taskRepository.save(task);
     }
 
-    public List<Task> getAllTasks(){
-        return taskRepository.findAll();
-    }
     public List<Task> getTasksByStatus(boolean status) {return taskRepository.findByCompleted(status);}
     public List<Task> searchTasks(String title) {return taskRepository.findByTitleContaining(title);}
     public void deleteTask(Long id) {

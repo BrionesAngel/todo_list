@@ -10,7 +10,7 @@ import org.angelo.todolist.users.User;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-
+@Table(name = "tasks")
 public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
