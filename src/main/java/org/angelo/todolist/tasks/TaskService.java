@@ -17,11 +17,7 @@ public class TaskService {
     private final UserRepository userRepository;
     private final TaskMapper taskMapper;
 
-    public TaskResponse createTask(TaskRequest request){
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        assert auth != null;
-        String email = auth.getName();
-
+    public TaskResponse createTask(TaskRequest request, String email){
         User user = userRepository.findByEmail(email);
         if(user == null) {
             throw new ResourceNotFoundException("User not found");
@@ -34,6 +30,10 @@ public class TaskService {
 
         Task savedTask = taskRepository.save(task);
         return taskMapper.toResponse(savedTask);
+    }
+
+    public List<Task> getTasksByUser(String email) {
+        return taskRepository.findByUserEmail(email);
     }
 
     public List<Task> getTasksByStatus(boolean status) {return taskRepository.findByCompleted(status);}
