@@ -3,7 +3,6 @@ package org.angelo.todolist.tasks;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,6 +22,11 @@ public class TaskController {
     @GetMapping
     public List<Task> getTasks(@AuthenticationPrincipal UserDetails userDetails) {
         return taskService.getTasksByUser(userDetails.getUsername()); // username = email
+    }
+
+    @PutMapping("/{id}")
+    public TaskResponse updateTask(@PathVariable Long id, @RequestBody TaskRequest request, @AuthenticationPrincipal UserDetails userDetails) {
+        return taskService.updateTask(id, request, userDetails.getUsername());
     }
 
     @GetMapping("/completed/{status}")

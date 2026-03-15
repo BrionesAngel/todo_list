@@ -1,11 +1,10 @@
 package org.angelo.todolist.tasks;
 
 import lombok.RequiredArgsConstructor;
+import org.angelo.todolist.exceptions.InvalidCredentialsException;
 import org.angelo.todolist.exceptions.ResourceNotFoundException;
 import org.angelo.todolist.users.User;
 import org.angelo.todolist.users.UserRepository;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,6 +27,20 @@ public class TaskService {
         task.setCompleted(false);
         task.setUser(user);
 
+        Task savedTask = taskRepository.save(task);
+        return taskMapper.toResponse(savedTask);
+    }
+
+    public TaskResponse updateTask(Long id, TaskRequest request, String email) {
+        Task task = taskRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Task not found"));
+
+        if(!task.getUser().getEmail().equals(email)) {
+            throw new InvalidCredentialsException("You don't have permission to modify this task");
+        }
+        task.setTitle(request.title());
+        task.setDescription(request.description());
+        task.setCompleted(request.completed());
         Task savedTask = taskRepository.save(task);
         return taskMapper.toResponse(savedTask);
     }
