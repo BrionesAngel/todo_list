@@ -51,11 +51,15 @@ public class TaskService {
 
     public List<Task> getTasksByStatus(boolean status) {return taskRepository.findByCompleted(status);}
     public List<Task> searchTasks(String title) {return taskRepository.findByTitleContaining(title);}
-    public void deleteTask(Long id) {
-        if (!taskRepository.existsById(id)) {
-            throw new ResourceNotFoundException("Task not found");
+
+    public void deleteTask(Long id, String email) {
+        Task task = taskRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Task not found"));
+
+        if(!task.getUser().getEmail().equals(email)) {
+            throw new InvalidCredentialsException("You don't have permission to modify this task");
         }
-        taskRepository.deleteById(id);
+        taskRepository.delete(task);
     }
 }
 

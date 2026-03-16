@@ -36,8 +36,8 @@ public class TaskController {
     public List<Task> searchTasks(@RequestParam String title) {return taskService.searchTasks(title);}
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteTask(@PathVariable Long id) {
-        taskService.deleteTask(id);
+    public ResponseEntity<Void> deleteTask(@PathVariable Long id, @AuthenticationPrincipal UserDetails userDetails) {
+        taskService.deleteTask(id, userDetails.getUsername());
         return ResponseEntity.noContent().build();
     }
 }
