@@ -1,5 +1,6 @@
 package org.angelo.todolist.tasks;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -15,7 +16,7 @@ public class TaskController {
     private final TaskService taskService;
 
     @PostMapping
-    public TaskResponse createTask(@RequestBody TaskRequest request, @AuthenticationPrincipal UserDetails userDetails){
+    public TaskResponse createTask(@Valid @RequestBody TaskRequest request, @AuthenticationPrincipal UserDetails userDetails){
         return taskService.createTask(request, userDetails.getUsername());
     }
 
@@ -25,7 +26,7 @@ public class TaskController {
     }
 
     @PutMapping("/{id}")
-    public TaskResponse updateTask(@PathVariable Long id, @RequestBody TaskRequest request, @AuthenticationPrincipal UserDetails userDetails) {
+    public TaskResponse updateTask(@Valid @PathVariable Long id, @RequestBody TaskRequest request, @AuthenticationPrincipal UserDetails userDetails) {
         return taskService.updateTask(id, request, userDetails.getUsername());
     }
 
