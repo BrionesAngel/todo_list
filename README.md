@@ -1,8 +1,8 @@
 # Todo List Backend
 
-API REST para gestión de tareas personales, construida con Spring Boot y autenticación JWT.
+REST API for personal task management, built with Spring Boot and JWT authentication.
 
-## Tecnologías
+## Tech Stack
 
 - **Java 21** + **Spring Boot 4**
 - **Spring Security** + **JWT** (JJWT)
@@ -11,104 +11,104 @@ API REST para gestión de tareas personales, construida con Spring Boot y autent
 - **MapStruct** + **Lombok**
 - **Bean Validation**
 
-## Requisitos previos
+## Prerequisites
 
 - Java 21
 - Maven
-- Docker y Docker Compose
+- Docker and Docker Compose
 
-## Cómo correrlo
+## Getting Started
 
-1. Levantar la base de datos con Docker:
+1. Start the database with Docker:
 
 ```bash
 docker-compose up -d
 ```
 
-2. Correr la aplicación:
+2. Run the application:
 
 ```bash
 ./mvnw spring-boot:run
 ```
 
-La API quedará disponible en `http://localhost:8080`.
+The API will be available at `http://localhost:8080`.
 
 ## Endpoints
 
-### Autenticación — `/auth`
+### Authentication — `/auth`
 
-| Método | Endpoint | Descripción | Auth requerida |
-|--------|----------|-------------|----------------|
-| POST | `/auth/register` | Registrar nuevo usuario | No |
-| POST | `/auth/login` | Iniciar sesión y obtener token JWT | No |
+| Method | Endpoint | Description | Auth required |
+|--------|----------|-------------|---------------|
+| POST | `/auth/register` | Register a new user | No |
+| POST | `/auth/login` | Log in and get a JWT token | No |
 
-**Ejemplo registro:**
+**Register example:**
 ```json
 POST /auth/register
 {
   "username": "angel",
   "email": "angel@email.com",
-  "password": "mi_password"
+  "password": "my_password"
 }
 ```
 
-**Ejemplo login (respuesta):**
+**Login response:**
 ```json
 {
-  "token": "eyJhbGciOiJIUzI1NiJ9..."
+  "token": "******"
 }
 ```
 
-Usa el token en las siguientes peticiones con el header:
+Use the token in subsequent requests via the header:
 ```
-Authorization: Bearer <token>
+Authorization: ******
 ```
 
 ---
 
-### Usuario — `/users`
+### User — `/users`
 
-| Método | Endpoint | Descripción | Auth requerida |
-|--------|----------|-------------|----------------|
-| GET | `/users/me` | Ver los datos del usuario autenticado | Sí |
+| Method | Endpoint | Description | Auth required |
+|--------|----------|-------------|---------------|
+| GET | `/users/me` | Get the authenticated user's profile | Yes |
 
 ---
 
-### Tareas — `/tasks`
+### Tasks — `/tasks`
 
-| Método | Endpoint | Descripción | Auth requerida |
-|--------|----------|-------------|----------------|
-| POST | `/tasks` | Crear una nueva tarea | Sí |
-| GET | `/tasks` | Listar mis tareas | Sí |
-| PUT | `/tasks/{id}` | Actualizar una tarea | Sí |
-| DELETE | `/tasks/{id}` | Eliminar una tarea | Sí |
-| GET | `/tasks/completed/{status}` | Filtrar tareas por estado (`true`/`false`) | Sí |
-| GET | `/tasks/search?title=` | Buscar tareas por título | Sí |
+| Method | Endpoint | Description | Auth required |
+|--------|----------|-------------|---------------|
+| POST | `/tasks` | Create a new task | Yes |
+| GET | `/tasks` | List my tasks | Yes |
+| PUT | `/tasks/{id}` | Update a task | Yes |
+| DELETE | `/tasks/{id}` | Delete a task | Yes |
+| GET | `/tasks/completed/{status}` | Filter tasks by completion status (`true`/`false`) | Yes |
+| GET | `/tasks/search?title=` | Search tasks by title | Yes |
 
-**Ejemplo crear tarea:**
+**Create task example:**
 ```json
 POST /tasks
 {
-  "title": "Estudiar Spring Security",
-  "description": "Revisar filtros y JWT",
+  "title": "Study Spring Security",
+  "description": "Review filters and JWT",
   "completed": false
 }
 ```
 
-## Seguridad
+## Security
 
-- Todos los endpoints de `/tasks` y `/users` requieren un JWT válido.
-- Cada usuario solo puede ver y modificar sus propias tareas.
-- Los errores de autenticación devuelven `401 Unauthorized`.
-- Los errores de acceso devuelven `403 Forbidden`.
+- All `/tasks` and `/users` endpoints require a valid JWT.
+- Each user can only view and modify their own tasks.
+- Missing or invalid tokens return `401 Unauthorized`.
+- Valid tokens without sufficient permissions return `403 Forbidden`.
 
-## Estructura del proyecto
+## Project Structure
 
 ```
 src/main/java/org/angelo/todolist/
-├── auth/        # Registro, login, JWT filter y servicio
-├── config/      # Configuración de seguridad y CORS
-├── exceptions/  # Manejo global de errores
-├── tasks/       # CRUD de tareas
-└── users/       # Gestión de usuarios
+├── auth/        # Registration, login, JWT filter and service
+├── config/      # Security and CORS configuration
+├── exceptions/  # Global error handling
+├── tasks/       # Task CRUD
+└── users/       # User management
 ```
